@@ -26,7 +26,7 @@ export default function Home({ navigation }) {
         <CustomButton titleText="Equipo" submitHandler={pressHandler} />
         <CustomButton titleText="Contacto" submitHandler={pressHandler} />
         <Text style={styles.title}>Agenda Actual</Text>
-        <CustomTextBox />
+        <CustomTextBox heit={200} />
       </View>
       <View style={styles.footer}>
         <CustomFooter />

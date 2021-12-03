@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function CustomTextBox() {
+export default function CustomTextBox({ heit }) {
   return (
-    <View style={styles.box}>
+    <View style={[styles.box, { height: heit }]}>
       <Text style={styles.title}>
         Calendario mostrando espacios reservados con codigo de reservacion/ID de
         reservacion
@@ -16,8 +16,7 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
     width: 330,
-    height: 200,
-    // marginTop: 20,
+    marginBottom: 10,
   },
 
   title: {
