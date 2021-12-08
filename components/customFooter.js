@@ -1,11 +1,17 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Linking } from "react-native";
 import { SocialIcon } from "react-native-elements";
 
 export default function CustomFooter() {
   return (
     <View style={styles.footer}>
-      <SocialIcon type="facebook" />
+      <TouchableOpacity
+        onPress={() => {
+          Linking.openURL("http://faacebook.com");
+        }}
+      >
+        <SocialIcon type="facebook" />
+      </TouchableOpacity>
       <SocialIcon type="youtube" />
       <SocialIcon type="instagram" />
       <SocialIcon type="twitter" />

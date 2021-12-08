@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomHeader from "../components/customHeader";
 import CustomButton from "../components/customButton";
@@ -9,6 +9,12 @@ export default function Home({ navigation }) {
   const pressHandler = () => {
     navigation.navigate("ContactForm");
   };
+  const [show, setShow] = useState(true);
+  const showMode = (currentMode) => {
+    console.log(currentMode);
+    setShow(currentMode);
+  };
+
   return (
     <View style={styles.container}>
       <CustomHeader />
@@ -16,16 +22,41 @@ export default function Home({ navigation }) {
         <CustomButton
           titleText="Quienes somos?"
           submitHandler={() => {
-            console.log("dis");
+            if (show == true) {
+              showMode(false);
+            } else {
+              showMode(true);
+            }
           }}
         />
+        {show && <Text style={styles.title}>Agenda Actual</Text>}
         <CustomButton
           titleText="Agendar espacio"
           submitHandler={pressHandler}
         />
-        <CustomButton titleText="Equipo" submitHandler={pressHandler} />
-        <CustomButton titleText="Contacto" submitHandler={pressHandler} />
-        <Text style={styles.title}>Agenda Actual</Text>
+        <CustomButton
+          titleText="Equipo"
+          submitHandler={() => {
+            if (show == true) {
+              showMode(false);
+            } else {
+              showMode(true);
+            }
+          }}
+        />
+        {show && <Text style={styles.title}>Agenda Actual</Text>}
+        <CustomButton
+          titleText="Contacto"
+          submitHandler={() => {
+            if (show == true) {
+              showMode(false);
+            } else {
+              showMode(true);
+            }
+          }}
+        />
+        {show && <Text style={styles.title}>Agenda Actual</Text>}
+        {/* <Text style={styles.title}>Agenda Actual</Text> */}
         <CustomTextBox heit={200} />
       </View>
       <View style={styles.footer}>

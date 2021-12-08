@@ -1,14 +1,37 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import { Formik } from "formik";
 
 import CustomHeader from "../components/customHeader";
 import CustomButton from "../components/customButton";
 import CustomTextBox from "../components/customTextBox";
 import CustomFooter from "../components/customFooter";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function ContactFormScreen() {
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
   return (
     <View style={styles.container}>
       <CustomHeader />
@@ -16,11 +39,12 @@ export default function ContactFormScreen() {
         <View style={styles.content}>
           <Text style={styles.title}>Agenda actual</Text>
           <CustomTextBox heit={100} />
+
           <Formik
             initialValues={{
-              name: "",
-              email: "",
-              password: "",
+              date: "",
+              number: "",
+              time: "",
               contact: "",
               city: "",
             }}
@@ -30,24 +54,30 @@ export default function ContactFormScreen() {
           >
             {(props) => (
               <View>
-                <TextInput
-                  style={styles.inputTxt}
-                  placeholder="Name"
-                  onChangeText={props.handleChange("name")}
-                  value={props.values.name}
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChange}
                 />
                 <TextInput
                   style={styles.inputTxt}
-                  placeholder="Email"
-                  onChangeText={props.handleChange("email")}
-                  value={props.values.email}
+                  placeholder="Number"
+                  onChangeText={props.handleChange("number")}
+                  value={props.values.number}
+                  keyboardType="numeric"
                 />
-                <TextInput
-                  style={styles.inputTxt}
-                  placeholder="Password"
-                  onChangeText={props.handleChange("password")}
-                  value={props.values.password}
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChange}
                 />
+
                 <TextInput
                   style={styles.inputTxt}
                   placeholder="Contact"
@@ -94,6 +124,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  calender: {
+    alignSelf: "center",
+    alignContent: "center",
+    width: 200,
   },
   content: {
     marginTop: 10,
