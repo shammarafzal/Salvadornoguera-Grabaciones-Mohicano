@@ -23,7 +23,7 @@ export default function CustomFooter() {
 const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   logo: {
     width: 40,

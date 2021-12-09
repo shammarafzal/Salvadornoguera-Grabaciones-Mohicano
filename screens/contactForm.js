@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import { Formik } from "formik";
+import emailjs from "emailjs-com";
 
 import CustomHeader from "../components/customHeader";
 import CustomButton from "../components/customButton";
@@ -14,9 +15,21 @@ export default function ContactFormScreen() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
+  const form = useRef();
+
+  const sendEmail = (e) => {
+
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_USER_ID')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  };
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
+    setShow(Platform.OS === "android");
     setDate(currentDate);
   };
 
@@ -48,9 +61,8 @@ export default function ContactFormScreen() {
               contact: "",
               city: "",
             }}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
+            ref={form}
+            onSubmit={sendEmail}
           >
             {(props) => (
               <View>
