@@ -1,31 +1,21 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Formik } from "formik";
-import emailjs from "emailjs-com";
 
 import CustomHeader from "../components/customHeader";
 import CustomButton from "../components/customButton";
 import CustomTextBox from "../components/customTextBox";
 import CustomFooter from "../components/customFooter";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { sendEmail } from "./exmail";
 
 export default function ContactFormScreen() {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-
+  const [val, setVal] = useState("hel");
   const form = useRef();
-
-  const sendEmail = (e) => {
-
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_USER_ID')
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
-  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -51,28 +41,38 @@ export default function ContactFormScreen() {
       <ScrollView>
         <View style={styles.content}>
           <Text style={styles.title}>Agenda actual</Text>
-          <CustomTextBox heit={100} />
+          <CustomTextBox heit={200} />
 
           <Formik
             initialValues={{
-              date: "",
               number: "",
-              time: "",
               contact: "",
               city: "",
             }}
-            ref={form}
-            onSubmit={sendEmail}
+            onSubmit={(values) => {
+              console.log(values);
+              sendEmail(
+                "ammarafzal075@gmai.com",
+                "Contact Details",
+                `Contact: ${values.number}, City: ${values.city}, Contact: ${values.contact}, Date Time: ${date}, `
+              );
+            }}
           >
             {(props) => (
               <View>
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={date}
-                  mode={mode}
+                  mode="date"
                   is24Hour={true}
                   display="default"
                   onChange={onChange}
+                  style={{
+                    marginBottom: 10,
+                    marginTop: 10,
+                    alignSelf: "center",
+                    width: 150,
+                  }}
                 />
                 <TextInput
                   style={styles.inputTxt}
@@ -88,6 +88,7 @@ export default function ContactFormScreen() {
                   is24Hour={true}
                   display="default"
                   onChange={onChange}
+                  style={{ marginBottom: 10, alignSelf: "center", width: 150 }}
                 />
 
                 <TextInput
