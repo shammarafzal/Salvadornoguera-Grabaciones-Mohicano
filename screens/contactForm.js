@@ -52,7 +52,7 @@ export default function ContactFormScreen() {
             onSubmit={(values) => {
               console.log(values);
               sendEmail(
-                "ammarafzal075@gmai.com",
+                "appagenda2021@gmail.com",
                 "Contact Details",
                 `Contact: ${values.number}, City: ${values.city}, Contact: ${values.contact}, Date Time: ${date}, `
               );
